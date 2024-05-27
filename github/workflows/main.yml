@@ -1,0 +1,29 @@
+name: Daily Betting Bot
+
+on:
+  schedule:
+    - cron: '0 0 * * *'  # Executar todos os dias à meia-noite (UTC)
+
+jobs:
+  run_script:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up Python 3.x
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.x'
+
+    - name: Install dependencies
+      run: pip install requests python-telegram-bot schedule
+
+    - name: Run script
+      run: |
+        python main.py
+      env:
+        TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+        TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        
